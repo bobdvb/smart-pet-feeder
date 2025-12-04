@@ -1,0 +1,193 @@
+Arduino IDE Library Requirements for Smart Cat Feeder
+=====================================================
+
+If you're using the Arduino IDE instead of PlatformIO, you'll need to manually
+install the following libraries. Follow the instructions below.
+
+How to Install Libraries in Arduino IDE:
+-----------------------------------------
+1. Open Arduino IDE
+2. Go to: Sketch → Include Library → Manage Libraries
+3. Search for each library name below
+4. Click "Install" for each library
+
+Required Libraries:
+-------------------
+
+1. WiFiManager by tzapu
+   Version: 2.0.16-rc.2 or later
+   Description: Easy WiFi configuration with captive portal
+   Install via: Library Manager
+   Search: "WiFiManager"
+   Author: tzapu
+
+2. OneWire by Paul Stoffregen
+   Version: 2.3.7 or later
+   Description: 1-Wire protocol for DS18B20 temperature sensor
+   Install via: Library Manager
+   Search: "OneWire"
+   Author: Paul Stoffregen
+
+3. DallasTemperature by Miles Burton
+   Version: 3.11.0 or later
+   Description: DS18B20 temperature sensor library
+   Install via: Library Manager
+   Search: "DallasTemperature"
+   Author: Miles Burton
+   Note: Requires OneWire library (install OneWire first)
+
+4. ArduinoJson by Benoit Blanchon
+   Version: 6.21.3 or later (use version 6.x, NOT 7.x)
+   Description: JSON parsing and generation
+   Install via: Library Manager
+   Search: "ArduinoJson"
+   Author: Benoit Blanchon
+   IMPORTANT: Use version 6.x (not 7.x) for compatibility
+
+Built-in Libraries (No Installation Needed):
+---------------------------------------------
+The following libraries are built into the ESP32 Arduino core:
+
+- WiFi.h          (ESP32 WiFi)
+- WebServer.h     (Web server)
+- Preferences.h   (NVS storage)
+- time.h          (Time functions)
+
+ESP32 Board Support:
+--------------------
+You must have ESP32 board support installed in Arduino IDE.
+
+To install ESP32 boards:
+1. Open Arduino IDE
+2. Go to: File → Preferences
+3. In "Additional Board Manager URLs", add:
+   https://raw.githubusercontent.com/espressif/arduino-esp32/gh-pages/package_esp32_index.json
+4. Click OK
+5. Go to: Tools → Board → Boards Manager
+6. Search for "esp32"
+7. Install "esp32 by Espressif Systems" (version 2.0.11 or later)
+
+Board Selection:
+----------------
+After installing ESP32 support:
+1. Go to: Tools → Board → ESP32 Arduino
+2. Select your board:
+   - "ESP32 Dev Module" (most common)
+   - "ESP32-C3 Dev Module" (for ESP32-C3)
+   - "ESP32-S3 Dev Module" (for ESP32-S3)
+   - Or your specific board model
+
+Upload Settings:
+----------------
+Recommended settings for ESP32 Dev Module:
+- Board: "ESP32 Dev Module"
+- Upload Speed: "921600"
+- CPU Frequency: "240MHz (WiFi/BT)"
+- Flash Frequency: "80MHz"
+- Flash Mode: "QIO"
+- Flash Size: "4MB (32Mb)"
+- Partition Scheme: "Default 4MB with spiffs"
+- Core Debug Level: "None" (or "Info" for debugging)
+- PSRAM: "Disabled" (unless your board has PSRAM)
+
+Port Selection:
+---------------
+- Windows: COM3, COM4, etc.
+- Mac: /dev/cu.usbserial-XXXX or /dev/cu.SLAB_USBtoUART
+- Linux: /dev/ttyUSB0 or /dev/ttyACM0
+
+If you can't see your port:
+- Install CP2102 or CH340 USB driver (depends on your board)
+- Check USB cable (must be data cable, not charge-only)
+
+Compilation:
+------------
+1. Open CatFeeder.ino in Arduino IDE
+2. Verify libraries are installed (Sketch → Include Library → should show all libraries)
+3. Select correct board and port
+4. Click "Verify" to compile
+5. Click "Upload" to flash to ESP32
+
+Common Compilation Errors:
+--------------------------
+
+Error: "WiFiManager.h: No such file or directory"
+Solution: Install WiFiManager library via Library Manager
+
+Error: "OneWire.h: No such file or directory"
+Solution: Install OneWire library via Library Manager
+
+Error: "DallasTemperature.h: No such file or directory"
+Solution: Install DallasTemperature library via Library Manager
+
+Error: "Preferences.h: No such file or directory"
+Solution: Install ESP32 board support (see above)
+
+Error: "No module named 'serial'"
+Solution: Install pyserial: pip install pyserial
+
+Error: "Compilation error: DEVICE_DISCONNECTED_C was not declared"
+Solution: Update DallasTemperature library to latest version
+
+Verification:
+-------------
+After uploading, open Serial Monitor:
+1. Tools → Serial Monitor
+2. Set baud rate to 115200
+3. You should see:
+   "Smart Cat Feeder - Starting..."
+   "Pins configured"
+   "WiFi connected!"
+   "IP Address: xxx.xxx.xxx.xxx"
+
+Alternative: Using Arduino IDE 2.0:
+-----------------------------------
+The newer Arduino IDE 2.0+ has a better library manager and auto-complete.
+All steps are the same, but the interface is more user-friendly.
+
+Troubleshooting:
+----------------
+
+Problem: Libraries installed but IDE can't find them
+Solution:
+- Close and restart Arduino IDE
+- Check library installation path: File → Preferences → Sketchbook location
+- Manually verify libraries are in: [Sketchbook]/libraries/
+
+Problem: Upload fails with "Failed to connect"
+Solution:
+- Hold BOOT button on ESP32 during upload
+- Try lower upload speed (115200)
+- Check USB cable and driver
+- Press RESET button after upload
+
+Problem: ESP32 not detected on any port
+Solution:
+- Install USB-to-Serial driver:
+  - CP210x driver for SiLabs CP2102 chips
+  - CH340 driver for WCH CH340 chips
+- Try different USB cable
+- Try different USB port
+
+Getting Help:
+-------------
+If you encounter issues:
+1. Check Arduino IDE Console output for specific error messages
+2. Verify all libraries are installed correctly
+3. Ensure ESP32 board support is up to date
+4. Check the README.md and WIRING.md files
+5. Serial Monitor output often contains helpful diagnostic information
+
+Library Documentation:
+----------------------
+WiFiManager: https://github.com/tzapu/WiFiManager
+OneWire: https://www.pjrc.com/teensy/td_libs_OneWire.html
+DallasTemperature: https://github.com/milesburton/Arduino-Temperature-Control-Library
+ArduinoJson: https://arduinojson.org/
+
+ESP32 Arduino Core: https://docs.espressif.com/projects/arduino-esp32/
+
+License Information:
+--------------------
+All libraries are open source with permissive licenses.
+Check each library's repository for specific license details.
